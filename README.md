@@ -42,28 +42,28 @@ Directory Organisation
 After cloning this repository from GitHub using the `git clone` command, the following directory structure is obtained (as well as some files of interest):
 
     .
-    ├── Common
-    │   ├── config                         Configuration files
-    │   ├── environment-all.yml            Conda environment file (with software versions)
-    │   ├── environment.yml                Conda environment file
-    │   ├── Input                          Input directory
-    │   └── Output                         Output directory
-    ├── Data
-    │   ├── mts                            MTS sequences
-    │   └── protein                        Passenger protein sequences
+    ├── Common                             Directories and files shared across workflows
+    │   ├── config                           Configuration files
+    │   ├── environment-all.yml              Conda environment file (with software versions)
+    │   ├── environment.yml                  Conda environment file
+    │   ├── Input                            Input directory
+    │   └── Output                           Output directory
+    ├── Data                               Data directory
+    │   ├── mts                              MTS sequences
+    │   └── protein                          Passenger protein sequences
     ├── evaluate                           "evaluate" workflow
     │   ├── config -> ../Common/config
     │   ├── Input -> ../Common/Input
     │   ├── Output -> ../Common/Output
-    │   ├── Perl                           Perl scripts
-    │   ├── R                              R scripts
-    │   └── rules                          Snakemake rules
+    │   ├── Perl                             Perl scripts
+    │   ├── R                                R scripts
+    │   └── rules                            Snakemake rules
     ├── generate                           "generate" workflow
     │   ├── config -> ../Common/config
     │   ├── Input -> ../Common/Input
     │   ├── Output -> ../Common/Output
-    │   ├── Perl                           Perl scripts
-    │   └── rules                          Snakemake rules
+    │   ├── Perl                             Perl scripts
+    │   └── rules                            Snakemake rules
     ├── LICENSE                            Software license (GNU GPL v3)
     └── README.md                          This README file
 
