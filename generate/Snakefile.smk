@@ -22,8 +22,8 @@ min_version ("7.0")
 
 ##################################
 ##  Configuration files
-configfile: "Common/config/config.yml"
-validate (config, schema = "Common/config/config.schema.yml")
+configfile: "config/config.yml"
+validate (config, schema = "config/config.schema.yml")
 
 
 ##################################
@@ -35,7 +35,7 @@ wildcard_constraints:
 
 ##################################
 ##  Include additional functions and rules
-include:  "Common/config/global-vars.smk"
+include:  "config/global-vars.smk"
 
 include:  "rules/random.smk"
 include:  "rules/append.smk"
@@ -43,7 +43,7 @@ include:  "rules/mitofates.smk"
 include:  "rules/properties.smk"
 include:  "rules/merge-properties.smk"
 
-include:  "rules/complete-random.smk"
+include:  "rules/complete.smk"
 
 
 ##################################
@@ -56,7 +56,7 @@ shell.prefix ("source /opt/miniforge3/etc/profile.d/conda.sh; conda activate mts
 ##  Top-level rule
 rule all:
   input:
-    PROGRESS_OUTPUT_DIR + "/positives/1.done",
-    PROGRESS_OUTPUT_DIR + "/positives/2.done",
-    PROGRESS_OUTPUT_DIR + "/positives/3.done"
+    PROGRESS_OUTPUT_DIR + "/random/1.done",
+    PROGRESS_OUTPUT_DIR + "/random/2.done",
+    PROGRESS_OUTPUT_DIR + "/random/3.done"
 

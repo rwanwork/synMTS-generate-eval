@@ -1,0 +1,45 @@
+#####################################################################
+##  config.yml
+##
+##  Raymond Wan
+##    raymond.wan@manchester.ac.uk
+##    rwan.work@gmail.com
+##
+##  Manchester Institute of Biotechnology
+##  University of Manchester
+##  Manchester, UK
+##
+##  Copyright (C) 2025, Raymond Wan, All rights reserved.
+#####################################################################
+
+##  Data tables with additional configuration information
+deepmito:  "Common/config/data/deepmito.tsv"
+mitofates:  "Common/config/data/mitofates.tsv"
+
+
+##  Parameters for random sequence generation
+random:
+  number:  200
+  minlen:  40
+  maxlen:  120
+  mincharge:  8
+  methods:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+
+
+##  Protein sequences
+protein:
+  sequences:
+    - atp8
+    - atp9
+    - cox2
+    - hac1
+

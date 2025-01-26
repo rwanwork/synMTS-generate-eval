@@ -17,9 +17,9 @@ rule Random_MTS:
   input:
     input_fn1 = AAPROP_FILE
   output:
-    output_fn1 = OUTPUT_DIR + "/positives/{replicate}/01_random/{method}/mts.fasta"
+    output_fn1 = OUTPUT_DIR + "/random/{replicate}/01_random/{method}/mts.fasta"
   log:
-    log_fn1 = OUTPUT_DIR + "/positives/{replicate}/01_random/{method}/mts.log"
+    log_fn1 = OUTPUT_DIR + "/random/{replicate}/01_random/{method}/mts.log"
   params:
     method = "{method}",
     number = lambda wildcards: config["random"]["number"],
