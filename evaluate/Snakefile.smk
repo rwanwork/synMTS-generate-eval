@@ -22,16 +22,16 @@ min_version ("7.0")
 
 ##################################
 ##  Configuration files
-configfile: "Common/config/config.yml"
-validate (config, schema = "Common/config/config.schema.yml")
+configfile: "config/config.yml"
+validate (config, schema = "config/config.schema.yml")
 
 deepmito_panda = pd.read_table (config["deepmito"], sep='\t', lineterminator='\n')
 deepmito_panda.set_index ("ID", drop=False, inplace=True)
-validate (deepmito_panda, schema="Common/config/deepmito.schema.yml")
+validate (deepmito_panda, schema="config/deepmito.schema.yml")
 
 mitofates_panda = pd.read_table (config["mitofates"], sep='\t', lineterminator='\n')
 mitofates_panda.set_index ("ID", drop=False, inplace=True)
-validate (mitofates_panda, schema="Common/config/mitofates.schema.yml")
+validate (mitofates_panda, schema="config/mitofates.schema.yml")
 
 
 ##################################
@@ -44,7 +44,7 @@ wildcard_constraints:
 
 ##################################
 ##  Include additional functions and rules
-include:  "Common/config/global-vars.smk"
+include:  "config/global-vars.smk"
 
 include:  "rules/copy.smk"
 include:  "rules/json.smk"
@@ -52,9 +52,10 @@ include:  "rules/clean.smk"
 include:  "rules/combine.smk"
 include:  "rules/graph-software.smk"
 include:  "rules/graph-properties.smk"
+include:  "rules/calculate-ranks.smk"
 include:  "rules/graph-ranks.smk"
 
-include:  "rules/complete-graphs.smk"
+include:  "rules/complete.smk"
 
 
 ##################################

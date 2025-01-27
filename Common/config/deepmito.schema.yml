@@ -1,0 +1,33 @@
+#####################################################################
+##  deepmito.schema.yml
+##
+##  Raymond Wan
+##    raymond.wan@manchester.ac.uk
+##    rwan.work@gmail.com
+##
+##  Manchester Institute of Biotechnology
+##  University of Manchester
+##  Manchester, UK
+##
+##  Copyright (C) 2025, Raymond Wan, All rights reserved.
+#####################################################################
+
+
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description:  Snakemake configuration file
+
+type: object
+
+
+properties:
+  ID:
+    type:  integer
+  Replicate:
+    type:  integer
+  Method:
+    type:  integer
+  Gene:
+    type:  string
+  DeepMito:
+    type:  string

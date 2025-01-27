@@ -13,8 +13,8 @@
 #####################################################################
 
 ##  Data tables with additional configuration information
-deepmito:  "Common/config/data/deepmito.tsv"
-mitofates:  "Common/config/data/mitofates.tsv"
+deepmito:  "Input/deepmito.tsv"
+mitofates:  "Input/mitofates.tsv"
 
 
 ##  Parameters for random sequence generation

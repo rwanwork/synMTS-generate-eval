@@ -50,7 +50,7 @@ def ExpandMTSProperties (wc):
   for index, row in mitofates_panda.iterrows ():
     curr_replicate = row['Replicate']
 
-    d = [OUTPUT_DIR + "/positives/{r}/06_merged_mts_properties/all/mts.tsv".format (r=curr_replicate)]
+    d = [OUTPUT_DIR + "/random/{r}/06_merged_mts_properties/all/mts.tsv".format (r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandMTSProperties:\t", results, file=sys.stderr)
@@ -65,7 +65,7 @@ def ExpandProteinsProperties (wc):
     curr_replicate = row['Replicate']
     curr_gene = row['Gene']
 
-    d = [OUTPUT_DIR + "/positives/{r}/06_merged_proteins_properties/all/{g}.tsv".format (g=curr_gene, r=curr_replicate)]
+    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{g}.tsv".format (g=curr_gene, r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandProteinsProperties:\t", results, file=sys.stderr)

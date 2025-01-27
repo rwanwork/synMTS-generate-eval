@@ -1,3 +1,15 @@
+##  Ignore all generated output, except directory 01_random/
+##    (with just this directory, all other files can be re-generated)
+Common/Output/random/*
+Common/Output/graphs/
+Common/Output/Progress/
+!Common/Output/random/?/01_random/
+
+##  Ignore the tab-separated list of download paths
+Common/Input/deepmito.tsv
+Common/Input/mitofates.tsv
+
+##  Ignore the temporary Snakemake directory
 .snakemake/
 
 !Build/

@@ -1,5 +1,5 @@
 #####################################################################
-##  complete-graphs.smk
+##  complete.smk
 ##
 ##  Raymond Wan
 ##    raymond.wan@manchester.ac.uk
@@ -23,13 +23,17 @@ rule Complete_Graphs:
     input_fn6 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_properties.eps",
     input_fn7 = OUTPUT_DIR + "/graphs/06_proteins_properties_dist/proteins_properties.jpg",
     input_fn8 = OUTPUT_DIR + "/graphs/06_proteins_properties_dist/proteins_properties.eps",
-    input_fn9 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.jpg",
-    input_fn10 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.eps"
+    input_fn9 = OUTPUT_DIR + "/graphs/07_ranks_count/atp8.tsv",
+    input_fn10 = OUTPUT_DIR + "/graphs/07_ranks_count/atp9.tsv",
+    input_fn11 = OUTPUT_DIR + "/graphs/07_ranks_count/cox2.tsv",
+    input_fn12 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.jpg",
+    input_fn13 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.eps",
+    input_fn14 = OUTPUT_DIR + "/graphs/08_ranks_deepmito_only_graph/pairwise.jpg",
+    input_fn15 = OUTPUT_DIR + "/graphs/08_ranks_deepmito_only_graph/pairwise.eps"
   output:
     output_fn1 = PROGRESS_OUTPUT_DIR + "/graphs/all.done"
   shell:
     """
     touch {output.output_fn1}
     """
-
 
