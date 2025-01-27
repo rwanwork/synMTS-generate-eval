@@ -232,7 +232,7 @@ printf STDERR "==\t%u\n", scalar (@sorted_deepmito1);
 
 if ($debug_arg == 1) {
   for (my $k = 0; $k < scalar (@sorted_deepmito1); $k++) {
-    printf STDERR "[1 %u] %s", $k, GetDeepMito_Name ($sorted_deepmito1[$k]);
+    printf STDERR "[1 %u] %s", $k + 1, GetDeepMito_Name ($sorted_deepmito1[$k]);
     printf STDERR "\t%s", GetDeepMito_Predicted ($sorted_deepmito1[$k]);
     printf STDERR "\t%f", GetDeepMito_Score ($sorted_deepmito1[$k]);
     printf STDERR "\n";

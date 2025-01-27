@@ -50,6 +50,26 @@ rule Calculate_DeepMito_Ranks:
     """
 
 
+rule Calculate_MitoFates_Ranks:
+  input:
+    input_fn1 = OUTPUT_DIR + "/graphs/04_mitofates_combine/mitofates.tsv"
+  output:
+    output_fn1 = OUTPUT_DIR + "/graphs/07_ranks_mitofates_only/pairwise.tsv"
+  log:
+    log_fn1 = OUTPUT_DIR + "/graphs/07_ranks_mitofates_only/pairwise.log"
+  shell:
+    """
+    ranks_list="10,50,100,125,250,375,500,625,750,875,1000,1125,1200"
+    methods_list="4,7"
+
+    Perl/rank-mitofates.pl --mitofates {input.input_fn1} --protein1 atp8 --protein2 atp9 --ranks ${{ranks_list}} --methods ${{methods_list}} >{output.output_fn1} 2>{log.log_fn1}
+
+    Perl/rank-mitofates.pl --mitofates {input.input_fn1} --protein1 atp8 --protein2 cox2 --ranks ${{ranks_list}} --methods ${{methods_list}} >>{output.output_fn1} 2>>{log.log_fn1}
+
+    Perl/rank-mitofates.pl --mitofates {input.input_fn1} --protein1 atp9 --protein2 cox2 --ranks ${{ranks_list}} --methods ${{methods_list}} >>{output.output_fn1} 2>>{log.log_fn1}
+    """
+
+
 rule Calculate_DeepMito_Count:
   input:
     input_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv"
@@ -65,8 +85,8 @@ rule Calculate_DeepMito_Count:
     """
     methods_list="4,7"
 
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp8 --methods ${{methods_list}} >{output.output_fn1} 2>{log.log_fn1}
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp9 --methods ${{methods_list}} >{output.output_fn2} 2>{log.log_fn2}
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 cox2 --methods ${{methods_list}} >{output.output_fn3} 2>{log.log_fn3}
+    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp8 --methods ${{methods_list}} --debug >{output.output_fn1} 2>{log.log_fn1}
+    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp9 --methods ${{methods_list}} --debug >{output.output_fn2} 2>{log.log_fn2}
+    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 cox2 --methods ${{methods_list}} --debug >{output.output_fn3} 2>{log.log_fn3}
     """
 

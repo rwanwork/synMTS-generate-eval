@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #####################################################################
-##  rank-deepmito-mitofates.pl
+##  rank-mitofates.pl
 ##
 ##  Raymond Wan
 ##    raymond.wan@manchester.ac.uk
@@ -30,7 +30,6 @@ use Pod::Usage;
 use lib qw (. ../Common/Perl/ ../../Common/Perl/);
 
 use Access_IDs;
-use Sort_DeepMito;
 use Sort_MitoFates;
 
 
@@ -39,34 +38,22 @@ use Sort_MitoFates;
 ########################################
 
 ##  Input arguments
-my $deepmito_fn_arg = "";
 my $mitofates_fn_arg = "";
+my $protein1_arg = "";
+my $protein2_arg = "";
 my $ranks_str_arg = "";
 my $methods_str_arg = "";
 my $shownames_arg = 0;
 my $debug_arg = 0;
 
 ##  Data structures
-my @deepmito;
-my @mitofates;
+my @mitofates1;
+my @mitofates2;
 
 
 ########################################
 ##  Subroutines
 ########################################
-
-##  Sort using explicit subroutine name on the scores
-sub deepmito_cmpfn {
-  my @x_array = split /\t/, $a;
-  my $x = $x_array[2];
-
-  my @y_array = split /\t/, $b;
-  my $y = $y_array[2];
-
-  ##  Numerical sort in decreasing order
-  $y <=> $x;
-}
-
 
 ##  Sort using explicit subroutine name on the probability
 sub mitofates_cmpfn {
@@ -103,14 +90,18 @@ $config -> define ("help!", {
 $config -> define ("debug!", {
   ARGCOUNT => AppConfig::ARGCOUNT_NONE
 });                        ##  Debug mode
-$config -> define ("deepmito", {
-  ARGCOUNT => AppConfig::ARGCOUNT_ONE,
-  ARGS => "=s"
-});                        ##  File of DeepMito output
 $config -> define ("mitofates", {
   ARGCOUNT => AppConfig::ARGCOUNT_ONE,
   ARGS => "=s"
 });                        ##  File of MitoFates' output
+$config -> define ("protein1", {
+  ARGCOUNT => AppConfig::ARGCOUNT_ONE,
+  ARGS => "=s"
+});                        ##  First protein
+$config -> define ("protein2", {
+  ARGCOUNT => AppConfig::ARGCOUNT_ONE,
+  ARGS => "=s"
+});                        ##  Second protein
 $config -> define ("ranks", {
   ARGCOUNT => AppConfig::ARGCOUNT_ONE,
   ARGS => "=s"
@@ -141,17 +132,23 @@ if ($config -> get ("debug")) {
   $debug_arg = 1;
 }
 
-if (!defined ($config -> get ("deepmito"))) {
-  printf STDERR "EE\tDeepMito output required with the --deepmito option!\n";
-  exit (1);
-}
-$deepmito_fn_arg = $config -> get ("deepmito");
-
 if (!defined ($config -> get ("mitofates"))) {
   printf STDERR "EE\tMitoFates output required with the --mitofates option!\n";
   exit (1);
 }
 $mitofates_fn_arg = $config -> get ("mitofates");
+
+if (!defined ($config -> get ("protein1"))) {
+  printf STDERR "EE\tName of first protein required with the --protein1 option!\n";
+  exit (1);
+}
+$protein1_arg = $config -> get ("protein1");
+
+if (!defined ($config -> get ("protein2"))) {
+  printf STDERR "EE\tName of second protein required with the --protein2 option!\n";
+  exit (1);
+}
+$protein2_arg = $config -> get ("protein2");
 
 if (!defined ($config -> get ("ranks"))) {
   printf STDERR "EE\tComma-separated list of ranks required with the --ranks option!\n";
@@ -181,8 +178,9 @@ if ($config -> get ("shownames")) {
 ########################################
 
 printf STDERR "==\tRequired arguments:\n";
-printf STDERR "==\t  DeepMito filename:  %s\n", $deepmito_fn_arg;
 printf STDERR "==\t  MitoFates filename:  %s\n", $mitofates_fn_arg;
+printf STDERR "==\t  Protein 1:  %s\n", $protein1_arg;
+printf STDERR "==\t  Protein 2:  %s\n", $protein2_arg;
 printf STDERR "==\t  List of ranks:  %s\n", $ranks_str_arg;
 printf STDERR "==\t  List of methods:  %s\n", $methods_str_arg;
 printf STDERR "==\tOptional arguments:\n";
@@ -195,34 +193,26 @@ else {
 
 
 ########################################
+##  Store the methods of interest
+########################################
+
+my @methods = split /,/, $methods_str_arg;
+my %methods_hash;
+for (my $k = 0; $k < scalar (@methods); $k++) {
+  $methods_hash{$methods[$k]} = 1;
+}
+
+
+########################################
 ##  Read in the DeepMito file
 ########################################
 
-my $deepmito_count = 0;
-open (my $deepmito_fp, "<", $deepmito_fn_arg) or die "EE\tCould not open $deepmito_fn_arg for input!\n";
-my $header = <$deepmito_fp>;  ##  Discard the header
-while (<$deepmito_fp>) {
-  my $line = $_;
-  chomp ($line);
-
-  my @tmp_array = split /\t/, $line;
-
-  ##  Name, predicted [yes/no], score
-  my $record = $tmp_array[0]."\t".$tmp_array[5]."\t".$tmp_array[6];
-
-  push (@deepmito, $record);
-  $deepmito_count++;
-}
-close ($deepmito_fp);
-
-
-########################################
-##  Read in the MitoFates file
-########################################
-
 my $mitofates_count = 0;
+my $mitofates_count1 = 0;
+my $mitofates_count2 = 0;
+
 open (my $mitofates_fp, "<", $mitofates_fn_arg) or die "EE\tCould not open $mitofates_fn_arg for input!\n";
-$header = <$mitofates_fp>;  ##  Discard the header
+my $header = <$mitofates_fp>;  ##  Discard the header
 while (<$mitofates_fp>) {
   my $line = $_;
   chomp ($line);
@@ -232,18 +222,38 @@ while (<$mitofates_fp>) {
   ##  Name, probability
   my $record = $tmp_array[0]."\t".$tmp_array[5];
 
-  push (@mitofates, $record);
+  my $curr_method = GetMethodFromName ($tmp_array[0]);
+  if (!defined ($methods_hash{$curr_method})) {
+    next;
+  }
+
+  my $curr_protein = GetProteinFromName ($tmp_array[0]);
+
+  if ($curr_protein eq $protein1_arg) {
+    push (@mitofates1, $record);
+    $mitofates_count1++;
+  }
+  if ($curr_protein eq $protein2_arg) {
+    push (@mitofates2, $record);
+    $mitofates_count2++;
+  }
   $mitofates_count++;
 }
 close ($mitofates_fp);
+
+
+printf STDERR "==\t%u %u %u\n", $mitofates_count, $mitofates_count1, $mitofates_count2;
 
 
 ########################################
 ##  Sort the two arrays
 ########################################
 
-my @sorted_deepmito = sort deepmito_cmpfn @deepmito;
-my @sorted_mitofates = sort mitofates_cmpfn @mitofates;
+my @sorted_mitofates1 = sort mitofates_cmpfn @mitofates1;
+my @sorted_mitofates2 = sort mitofates_cmpfn @mitofates2;
+
+
+printf STDERR "==\t%u %u\n", scalar (@sorted_mitofates1), scalar (@sorted_mitofates2);
 
 
 ########################################
@@ -251,23 +261,22 @@ my @sorted_mitofates = sort mitofates_cmpfn @mitofates;
 ########################################
 
 if ($debug_arg == 1) {
-  for (my $k = 0; $k < scalar (@sorted_deepmito); $k++) {
-    printf STDERR "%s", GetDeepMito_Name ($sorted_deepmito[$k]);
-    printf STDERR "\t%s", GetDeepMito_Predicted ($sorted_deepmito[$k]);
-    printf STDERR "\t%f", GetDeepMito_Score ($sorted_deepmito[$k]);
+  for (my $k = 0; $k < scalar (@sorted_mitofates1); $k++) {
+    printf STDERR "[1 %u] %s", $k, GetMitoFates_Name ($sorted_mitofates1[$k]);
+    printf STDERR "\t%f", GetMitoFates_Probability ($sorted_mitofates1[$k]);
     printf STDERR "\n";
   }
 
-  for (my $k = 0; $k < scalar (@sorted_mitofates); $k++) {
-    printf STDERR "%s", GetMitoFates_Name ($sorted_mitofates[$k]);
-    printf STDERR "\t%f", GetMitoFates_Probability ($sorted_mitofates[$k]);
+  for (my $k = 0; $k < scalar (@sorted_mitofates2); $k++) {
+    printf STDERR "[2 %u] %s", $k, GetMitoFates_Name ($sorted_mitofates2[$k]);
+    printf STDERR "\t%f", GetMitoFates_Probability ($sorted_mitofates2[$k]);
     printf STDERR "\n";
   }
 }
 
 ##  Sanity check that both lists are of equal length
-if (scalar (@sorted_deepmito) != scalar (@sorted_mitofates)) {
-  printf STDERR "EE\tSize of the two lists are different!  %u vs %u\n", scalar (@sorted_deepmito), scalar (@sorted_mitofates);
+if (scalar (@sorted_mitofates1) != scalar (@sorted_mitofates2)) {
+  printf STDERR "EE\tSize of the two lists are different!  %u vs %u\n", scalar (@sorted_mitofates1), scalar (@sorted_mitofates2);
   exit (1);
 }
 
@@ -277,56 +286,58 @@ if (scalar (@sorted_deepmito) != scalar (@sorted_mitofates)) {
 ########################################
 
 my @ranks = split /,/, $ranks_str_arg;
-my @methods = split /,/, $methods_str_arg;
 
 for (my $k = 0; $k < scalar (@ranks); $k++) {
   my %names_list = ();
   my $overlap_count = 0;
-  my %methods_count = ();
 
   ##  Force the rank to be no larger than the number of records
-  if ($ranks[$k] > scalar (@sorted_deepmito)) {
-    $ranks[$k] = scalar (@sorted_deepmito);
-  }
-
-  ##  Initialise the methods count
-  for (my $m = 0; $m < scalar (@methods); $m++) {
-    $methods_count{$methods[$m]} = 0;
+  if ($ranks[$k] > scalar (@sorted_mitofates1)) {
+    $ranks[$k] = scalar (@sorted_mitofates1);
   }
 
   for (my $i = 0; $i < $ranks[$k]; $i++) {
-    my $curr_name = GetDeepMito_Name ($sorted_deepmito[$i]);
-    my $curr_predicted = GetDeepMito_Predicted ($sorted_deepmito[$i]);
+    my $curr_name = GetMitoFates_Name ($sorted_mitofates1[$i]);
+    my $curr_predicted = GetMitoFates_Probability ($sorted_mitofates1[$i]);
 
-    if ($curr_predicted eq "Yes") {
-      $names_list{$curr_name} = 1;
-    }
+    $names_list{$curr_name} = 1;
   }
 
   for (my $j = 0; $j < $ranks[$k]; $j++) {
-    my $curr_name = GetMitoFates_Name ($sorted_mitofates[$j]);
+    my $curr_name = GetMitoFates_Name ($sorted_mitofates2[$j]);
 
     if (defined ($names_list{$curr_name})) {
       $overlap_count++;
       if ($shownames_arg == 1) {
         printf STDERR "==\t%u\t%s\n", $ranks[$k], $curr_name;
       }
-
-      my $curr_method = GetMethodFromName ($curr_name);
-      if (defined ($methods_count{$curr_method})) {
-        $methods_count{$curr_method}++;
-      }
-      else {
-        printf STDERR "EE\tCould not determine method from:  %s\n", $curr_name;
-        exit (1);
-      }
     }
   }
 
-  printf STDOUT "%u\t-1\t%u\n", $ranks[$k], $overlap_count;
-  foreach my $key (sort (keys %methods_count)) {
-    printf STDOUT "%u\t%u\t%u\n", $ranks[$k], $key, $methods_count{$key};
+  my $protein1_out = $protein1_arg;
+  my $protein2_out = $protein2_arg;
+
+  if ($protein1_out eq "atp8") {
+    $protein1_out = "Atp8p";
   }
+  elsif ($protein1_out eq "atp9") {
+    $protein1_out = "Atp9p";
+  }
+  elsif ($protein1_out eq "cox2") {
+    $protein1_out = "Cox2p";
+  }
+
+  if ($protein2_out eq "atp8") {
+    $protein2_out = "Atp8p";
+  }
+  elsif ($protein2_out eq "atp9") {
+    $protein2_out = "Atp9p";
+  }
+  elsif ($protein2_out eq "cox2") {
+    $protein2_out = "Cox2p";
+  }
+
+  printf STDOUT "%s-%s\t%u\t%u\t%f\n", $protein1_out, $protein2_out, $ranks[$k], $overlap_count, $overlap_count / $ranks[$k];
 }
 
 

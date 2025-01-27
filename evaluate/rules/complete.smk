@@ -29,7 +29,9 @@ rule Complete_Graphs:
     input_fn12 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.jpg",
     input_fn13 = OUTPUT_DIR + "/graphs/08_ranks_graph/ranks.eps",
     input_fn14 = OUTPUT_DIR + "/graphs/08_ranks_deepmito_only_graph/pairwise.jpg",
-    input_fn15 = OUTPUT_DIR + "/graphs/08_ranks_deepmito_only_graph/pairwise.eps"
+    input_fn15 = OUTPUT_DIR + "/graphs/08_ranks_deepmito_only_graph/pairwise.eps",
+    input_fn16 = OUTPUT_DIR + "/graphs/08_ranks_mitofates_only_graph/pairwise.jpg",
+    input_fn17 = OUTPUT_DIR + "/graphs/08_ranks_mitofates_only_graph/pairwise.eps"
   output:
     output_fn1 = PROGRESS_OUTPUT_DIR + "/graphs/all.done"
   shell:

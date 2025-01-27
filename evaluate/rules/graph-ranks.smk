@@ -39,4 +39,18 @@ rule Plot_DeepMito_Ranks:
     """
 
 
+rule Plot_MitoFates_Ranks:
+  input:
+    input_fn1 = OUTPUT_DIR + "/graphs/07_ranks_mitofates_only/pairwise.tsv"
+  output:
+    output_fn1 = OUTPUT_DIR + "/graphs/08_ranks_mitofates_only_graph/pairwise.jpg",
+    output_fn2 = OUTPUT_DIR + "/graphs/08_ranks_mitofates_only_graph/pairwise.eps"
+  shell:
+    """
+    R/ranks-mitofates.R --type jpg --input {input.input_fn1} --output {output.output_fn1}
+    R/ranks-mitofates.R --type eps --input {input.input_fn1} --output {output.output_fn2}
+    """
+
+
+
 

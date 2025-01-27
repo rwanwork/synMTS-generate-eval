@@ -36,7 +36,7 @@ FIGURE_DPI <- 600
 ##  Process arguments using docopt
 #####################################################################
 
-"Usage:  ranks-deepmito.R --input INPUT --output OUTPUT --type IMGTYPE
+"Usage:  ranks-mitofates.R --input INPUT --output OUTPUT --type IMGTYPE
 
 Options:
   --input INPUT  Input file
@@ -72,7 +72,7 @@ colnames (x) <- c ("Proteins", "Rank", "Count", "Proportion")
 ggplot_obj <- ggplot (data=x, aes(x=Rank, y=Proportion, group=Proteins))
 ggplot_obj <- ggplot_obj + geom_line (aes (color = Proteins))
 ggplot_obj <- ggplot_obj + geom_point (aes (color = Proteins))
-ggplot_obj <- ggplot_obj + geom_vline (xintercept = 500, linetype="dotted")
+# ggplot_obj <- ggplot_obj + geom_vline (xintercept = 500, linetype="dotted")
 ggplot_obj <- ggplot_obj + theme (legend.position = "inside", legend.position.inside = c(0.75, 0.25))
 # ggplot_obj <- ggplot_obj + theme (legend.position = "left")
 ggplot_obj <- ggplot_obj + scale_y_continuous (limits = c(0, 1))
