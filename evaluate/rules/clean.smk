@@ -15,9 +15,9 @@
 
 rule Clean_DeepMito:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/02_deepmito_parse/{method}_{gene}_{replicate}.json"
+    input_fn1 = OUTPUT_DIR + "/graphs/02_deepmito_parse/{method}_{protein}_{replicate}.json"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/03_deepmito_clean/{method}_{gene}_{replicate}.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/03_deepmito_clean/{method}_{protein}_{replicate}.tsv"
   shell:
     """
     cp {input.input_fn1} {output.output_fn1}
@@ -26,11 +26,11 @@ rule Clean_DeepMito:
 
 rule Clean_MitoFates:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/01_mitofates_copy/{gene}_{replicate}.json"
+    input_fn1 = OUTPUT_DIR + "/graphs/01_mitofates_copy/{protein}_{replicate}.json"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/03_mitofates_clean/{gene}_{replicate}.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/03_mitofates_clean/{protein}_{replicate}.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/03_mitofates_clean/{gene}_{replicate}.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/03_mitofates_clean/{protein}_{replicate}.log"
   shell:
     """
     Perl/clean-mitofates.pl --input {input.input_fn1} >{output.output_fn1} 2>{log.log_fn1}

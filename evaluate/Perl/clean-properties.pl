@@ -82,7 +82,7 @@ my $num_headers_discarded = 0;
 my $header = <STDIN>;
 chomp ($header);
 my @header_array = split /\t/, $header;
-printf STDOUT "Name\tID\tMethod\tSeed\tGene";
+printf STDOUT "Name\tID\tMethod\tSeed\tProtein";
 for (my $k = 1; $k < scalar (@header_array); $k++) {
   printf STDOUT "\t%s", $header_array[$k];
 }
@@ -101,25 +101,25 @@ while (<STDIN>) {
     my $id = 0;
     my $method = 0;
     my $seed = 0;
-    my $gene = "";
+    my $protein = "";
     if ($array[0] =~ /^(\d+)_(\d+)_(\d+)_(.+)$/) {
       $id = $1;
       $method = $2;
       $seed = $3;
-      $gene = $4;
+      $protein = $4;
     }
     elsif ($array[0] =~ /^(\d+)_(\d+)_(\d+)$/) {
       $id = $1;
       $method = $2;
       $seed = $3;
-      $gene = "N/A";
+      $protein = "N/A";
     }
 
     printf STDOUT "%s", $array[0];
     printf STDOUT "\t%s", $id;
     printf STDOUT "\t%s", $method;
     printf STDOUT "\t%s", $seed;
-    printf STDOUT "\t%s", $gene;
+    printf STDOUT "\t%s", $protein;
 
     for (my $j = 1; $j < scalar (@array); $j++) {
       printf STDOUT "\t%s", $array[$j];

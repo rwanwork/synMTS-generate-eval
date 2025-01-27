@@ -97,15 +97,15 @@ sub PrintField {
       my $id = 0;
       my $method = 0;
       my $seed = 0;
-      my $gene = "";
+      my $protein = "";
       if ($field =~ /^(\d+)_(\d+)_(\d+)_(.+)$/) {
         $id = $1;
         $method = $2;
         $seed = $3;
-        $gene = $4;
+        $protein = $4;
       }
 
-      $result = $field."\t".$id."\t".$method."\t".$seed."\t".$gene;
+      $result = $field."\t".$id."\t".$method."\t".$seed."\t".$protein;
     }
     else {
       $result = $field;

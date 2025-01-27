@@ -38,7 +38,7 @@ validate (mitofates_panda, schema="config/mitofates.schema.yml")
 ##  Define global constraints on wildcards
 wildcard_constraints:
   method = "\\d+",
-  gene = "atp8|atp9|cox2|hac1",
+  protein = "atp8|atp9|cox2|hac1",
   replicate = "\\d+"
 
 

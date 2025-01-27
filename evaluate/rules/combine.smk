@@ -19,9 +19,9 @@ def ExpandDeepMito (wc):
   for index, row in deepmito_panda.iterrows ():
     curr_replicate = row['Replicate']
     curr_method = row['Method']
-    curr_gene = row['Gene']
+    curr_protein = row['Protein']
 
-    d = [OUTPUT_DIR + "/graphs/03_deepmito_clean/{m}_{g}_{r}.tsv".format (m=curr_method, g=curr_gene, r=curr_replicate)]
+    d = [OUTPUT_DIR + "/graphs/03_deepmito_clean/{m}_{g}_{r}.tsv".format (m=curr_method, g=curr_protein, r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandDeepMito:\t", results, file=sys.stderr)
@@ -34,9 +34,9 @@ def ExpandMitoFates (wc):
 
   for index, row in mitofates_panda.iterrows ():
     curr_replicate = row['Replicate']
-    curr_gene = row['Gene']
+    curr_protein = row['Protein']
 
-    d = [OUTPUT_DIR + "/graphs/03_mitofates_clean/{g}_{r}.tsv".format (g=curr_gene, r=curr_replicate)]
+    d = [OUTPUT_DIR + "/graphs/03_mitofates_clean/{g}_{r}.tsv".format (g=curr_protein, r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandMitoFates:\t", results, file=sys.stderr)
@@ -63,9 +63,9 @@ def ExpandProteinsProperties (wc):
 
   for index, row in mitofates_panda.iterrows ():
     curr_replicate = row['Replicate']
-    curr_gene = row['Gene']
+    curr_protein = row['Protein']
 
-    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{g}.tsv".format (g=curr_gene, r=curr_replicate)]
+    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{g}.tsv".format (g=curr_protein, r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandProteinsProperties:\t", results, file=sys.stderr)
