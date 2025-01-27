@@ -109,6 +109,8 @@ The results from the `generate` workflow can be found in `Common/Output/random/`
 
 The results from the `evaluate` workflow can be found in `Common/Output/graphs/`.
 
+If you make a mistake while processing the sample data and want to delete everything except for the sample data cloned from the repository, then go to the `Common/` and execute the script `clear-data.sh`.
+
 
 == Format of the data tables
 
