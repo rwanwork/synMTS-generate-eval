@@ -25,7 +25,7 @@ properties:
     type:  integer
   Replicate:
     type:  integer
-  Gene:
+  Protein:
     type:  string
   DeepMito:
     type:  string

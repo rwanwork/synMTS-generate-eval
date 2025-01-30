@@ -27,7 +27,7 @@ properties:
     type:  integer
   Method:
     type:  integer
-  Gene:
+  Protein:
     type:  string
   DeepMito:
     type:  string
