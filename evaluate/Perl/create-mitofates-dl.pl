@@ -115,7 +115,7 @@ while (<STDIN>) {
   my ($id, $replicate, $protein, $mitofates) = split /\t/, $line;
 
   if (defined ($replicates_hash{$replicate})) {
-    printf (STDOUT "wget https://mitf.cbrc.pj.aist.go.jp/MitoFates/cgi-bin/download.cgi\?jobId=%s\&file=result -O %s_%u.tsv", $mitofates, $protein, $replicate);
+    printf (STDOUT "wget https://mitf.cbrc.pj.aist.go.jp/MitoFates/cgi-bin/download.cgi\?jobId=%s\\&file=result -O %s_%u.tsv\n", $mitofates, $protein, $replicate);
   }
 }
 
