@@ -49,6 +49,7 @@ my $debug_arg = 0;
 ##  Data structures
 my @deepmito1;
 my @deepmito2;
+my %methods_hash;
 
 
 ########################################
@@ -105,11 +106,11 @@ $config -> define ("protein2", {
 $config -> define ("ranks", {
   ARGCOUNT => AppConfig::ARGCOUNT_ONE,
   ARGS => "=s"
-});                        ##  List of comma separated ranks
+});                        ##  List of ranks as a comma-separated list
 $config -> define ("methods", {
   ARGCOUNT => AppConfig::ARGCOUNT_ONE,
   ARGS => "=s"
-});                        ##  List of comma separated methods
+});                        ##  List of methods as a comma-separated list
 $config -> define ("shownames!", {
   ARGCOUNT => AppConfig::ARGCOUNT_NONE
 });                        ##  Show names of overlaps
@@ -197,7 +198,6 @@ else {
 ########################################
 
 my @methods = split /,/, $methods_str_arg;
-my %methods_hash;
 for (my $k = 0; $k < scalar (@methods); $k++) {
   $methods_hash{$methods[$k]} = 1;
 }
