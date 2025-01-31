@@ -17,7 +17,7 @@ rule Copy_DeepMito:
   input:
     input_fn1 = INPUT_DIR + "/deepmito/{method}_{protein}_{replicate}.json"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/01_deepmito_copy/{method}_{protein}_{replicate}.json"
+    output_fn1 = OUTPUT_DIR + "/graphs/main/01_deepmito_copy/{method}_{protein}_{replicate}.json"
   shell:
     """
     cp {input.input_fn1} {output.output_fn1}
@@ -28,7 +28,7 @@ rule Copy_MitoFates:
   input:
     input_fn1 = INPUT_DIR + "/mitofates/{protein}_{replicate}.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/01_mitofates_copy/{protein}_{replicate}.json"
+    output_fn1 = OUTPUT_DIR + "/graphs/main/01_mitofates_copy/{protein}_{replicate}.json"
   shell:
     """
     cp {input.input_fn1} {output.output_fn1}

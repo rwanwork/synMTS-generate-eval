@@ -15,12 +15,12 @@
 
 rule Calculate_DeepMito_MitoFates_Ranks:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv",
-    input_fn2 = OUTPUT_DIR + "/graphs/04_mitofates_combine/mitofates.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_deepmito_combine/deepmito.tsv",
+    input_fn2 = OUTPUT_DIR + "/graphs/{group}/04_mitofates_combine/mitofates.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/07_ranks/ranks.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks/ranks.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/07_ranks/ranks.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks/ranks.log"
   shell:
     """
     ranks_list="10,50,100,200,300,400,500,600,700,800,900,1000,2000,4000,6000,8000,10000,11000,12000,13000,14000,15000,16000,17000,20000"
@@ -32,11 +32,11 @@ rule Calculate_DeepMito_MitoFates_Ranks:
 
 rule Calculate_DeepMito_Ranks:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_deepmito_combine/deepmito.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/07_ranks_deepmito_only/pairwise.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_deepmito_only/pairwise.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/07_ranks_deepmito_only/pairwise.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_deepmito_only/pairwise.log"
   shell:
     """
     ranks_list="10,50,100,125,250,375,500,625,750,875,1000,1125,1200"
@@ -52,11 +52,11 @@ rule Calculate_DeepMito_Ranks:
 
 rule Calculate_MitoFates_Ranks:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_mitofates_combine/mitofates.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mitofates_combine/mitofates.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/07_ranks_mitofates_only/pairwise.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_mitofates_only/pairwise.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/07_ranks_mitofates_only/pairwise.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_mitofates_only/pairwise.log"
   shell:
     """
     ranks_list="10,50,100,125,250,375,500,625,750,875,1000,1125,1200"
@@ -72,15 +72,15 @@ rule Calculate_MitoFates_Ranks:
 
 rule Calculate_DeepMito_Count:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_deepmito_combine/deepmito.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/07_ranks_count/atp8.tsv",
-    output_fn2 = OUTPUT_DIR + "/graphs/07_ranks_count/atp9.tsv",
-    output_fn3 = OUTPUT_DIR + "/graphs/07_ranks_count/cox2.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/atp8.tsv",
+    output_fn2 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/atp9.tsv",
+    output_fn3 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/cox2.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/07_ranks_count/atp8.log",
-    log_fn2 = OUTPUT_DIR + "/graphs/07_ranks_count/atp9.log",
-    log_fn3 = OUTPUT_DIR + "/graphs/07_ranks_count/cox2.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/atp8.log",
+    log_fn2 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/atp9.log",
+    log_fn3 = OUTPUT_DIR + "/graphs/{group}/07_ranks_count/cox2.log"
   shell:
     """
     methods_list="4,7"

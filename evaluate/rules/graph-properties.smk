@@ -15,10 +15,10 @@
 
 rule Dist_Proteins_Properties:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_proteins_properties_combine/proteins_properties.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_proteins_properties_combine/proteins_properties.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/06_proteins_properties_dist/proteins_properties.jpg",
-    output_fn2 = OUTPUT_DIR + "/graphs/06_proteins_properties_dist/proteins_properties.eps"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/06_proteins_properties_dist/proteins_properties.jpg",
+    output_fn2 = OUTPUT_DIR + "/graphs/{group}/06_proteins_properties_dist/proteins_properties.eps"
   shell:
     """
     R/properties-dist.R --type jpg --input {input.input_fn1} --output {output.output_fn1}
@@ -28,14 +28,14 @@ rule Dist_Proteins_Properties:
 
 rule Dist_MTS_Properties:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_mts_properties_combine/mts_properties.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mts_properties_combine/mts_properties.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_properties.jpg",
-    output_fn2 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_properties.eps",
-    output_fn3 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_length.jpg",
-    output_fn4 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_length.eps",
-    output_fn5 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_charge.jpg",
-    output_fn6 = OUTPUT_DIR + "/graphs/06_mts_properties_dist/mts_charge.eps"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_properties.jpg",
+    output_fn2 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_properties.eps",
+    output_fn3 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_length.jpg",
+    output_fn4 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_length.eps",
+    output_fn5 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_charge.jpg",
+    output_fn6 = OUTPUT_DIR + "/graphs/{group}/06_mts_properties_dist/mts_charge.eps"
   shell:
     """
     R/properties-dist.R --type jpg --input {input.input_fn1} --output {output.output_fn1}

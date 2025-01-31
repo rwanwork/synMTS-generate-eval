@@ -15,10 +15,10 @@
 
 rule Boxplot_DeepMito:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_deepmito_combine/deepmito.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/05_boxplots/deepmito.jpg",
-    output_fn2 = OUTPUT_DIR + "/graphs/05_boxplots/deepmito.eps"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/deepmito.jpg",
+    output_fn2 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/deepmito.eps"
   shell:
     """
     R/deepmito-violin.R --type jpg --input {input.input_fn1} --output {output.output_fn1}
@@ -28,10 +28,10 @@ rule Boxplot_DeepMito:
 
 rule Boxplot_MitoFates:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/04_mitofates_combine/mitofates.tsv"
+    input_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mitofates_combine/mitofates.tsv"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/05_boxplots/mitofates.jpg",
-    output_fn2 = OUTPUT_DIR + "/graphs/05_boxplots/mitofates.eps"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/mitofates.jpg",
+    output_fn2 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/mitofates.eps"
   shell:
     """
     R/mitofates-boxplot.R --type jpg --input {input.input_fn1} --output {output.output_fn1}

@@ -33,13 +33,18 @@ mitofates_panda = pd.read_table (config["mitofates"], sep='\t', lineterminator='
 mitofates_panda.set_index ("ID", drop=False, inplace=True)
 validate (mitofates_panda, schema="config/mitofates.schema.yml")
 
+grouping_panda = pd.read_table (config["grouping"], sep='\t', lineterminator='\n')
+grouping_panda.set_index ("ID", drop=False, inplace=True)
+validate (grouping_panda, schema="config/grouping.schema.yml")
+
 
 ##################################
 ##  Define global constraints on wildcards
 wildcard_constraints:
   method = "\\d+",
   protein = "atp8|atp9|cox2|hac1",
-  replicate = "\\d+"
+  replicate = "\\d+",
+  grouping = "A|B"
 
 
 ##################################
@@ -68,5 +73,5 @@ shell.prefix ("source /opt/miniforge3/etc/profile.d/conda.sh; conda activate mts
 ##  Top-level rule
 rule all:
   input:
-    PROGRESS_OUTPUT_DIR + "/graphs/all.done"
+    PROGRESS_OUTPUT_DIR + "/graphs/A.done"
 

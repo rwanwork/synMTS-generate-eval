@@ -15,6 +15,7 @@
 ##  Data tables with additional configuration information
 deepmito:  "Input/deepmito.tsv"
 mitofates:  "Input/mitofates.tsv"
+grouping:  "config/grouping.tsv"
 
 
 ##  Parameters for random sequence generation

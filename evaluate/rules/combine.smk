@@ -16,15 +16,21 @@
 def ExpandDeepMito (wc):
   results = []
 
-  for index, row in deepmito_panda.iterrows ():
-    curr_replicate = row['Replicate']
-    curr_method = row['Method']
-    curr_protein = row['Protein']
+  curr_group = wc.group
 
-    d = [OUTPUT_DIR + "/graphs/03_deepmito_clean/{m}_{g}_{r}.tsv".format (m=curr_method, g=curr_protein, r=curr_replicate)]
-    results.extend (d)
+  for group_row in grouping_panda.itertuples (index = False):
+    if wc.group == group_row.Grouping:
+      for deepmito_row in deepmito_panda.itertuples (index = False):
+        curr_replicate = deepmito_row.Replicate
+        curr_method = deepmito_row.Method
+        curr_protein = deepmito_row.Protein
+
+        if curr_replicate == group_row.Replicate:
+          d = [OUTPUT_DIR + "/graphs/main/03_deepmito_clean/{m}_{p}_{r}.tsv".format (m=curr_method, p=curr_protein, r=curr_replicate)]
+          results.extend (d)
 
   print ("ExpandDeepMito:\t", results, file=sys.stderr)
+  print ("ExpandDeepMito:\t", len (results), file=sys.stderr)
 
   return results
 
@@ -32,14 +38,20 @@ def ExpandDeepMito (wc):
 def ExpandMitoFates (wc):
   results = []
 
-  for index, row in mitofates_panda.iterrows ():
-    curr_replicate = row['Replicate']
-    curr_protein = row['Protein']
+  curr_group = wc.group
 
-    d = [OUTPUT_DIR + "/graphs/03_mitofates_clean/{g}_{r}.tsv".format (g=curr_protein, r=curr_replicate)]
-    results.extend (d)
+  for group_row in grouping_panda.itertuples (index = False):
+    if wc.group == group_row.Grouping:
+      for mitofates_row in mitofates_panda.itertuples (index = False):
+        curr_replicate = mitofates_row.Replicate
+        curr_protein = mitofates_row.Protein
+
+        if curr_replicate == group_row.Replicate:
+          d = [OUTPUT_DIR + "/graphs/main/03_mitofates_clean/{p}_{r}.tsv".format (p=curr_protein, r=curr_replicate)]
+          results.extend (d)
 
   print ("ExpandMitoFates:\t", results, file=sys.stderr)
+  print ("ExpandMitoFates:\t", len (results), file=sys.stderr)
 
   return results
 
@@ -47,8 +59,8 @@ def ExpandMitoFates (wc):
 def ExpandMTSProperties (wc):
   results = []
 
-  for index, row in mitofates_panda.iterrows ():
-    curr_replicate = row['Replicate']
+  for mitofates_row in mitofates_panda.itertuples (index = False):
+    curr_replicate = mitofates_row.Replicate
 
     d = [OUTPUT_DIR + "/random/{r}/06_merged_mts_properties/all/mts.tsv".format (r=curr_replicate)]
     results.extend (d)
@@ -61,11 +73,11 @@ def ExpandMTSProperties (wc):
 def ExpandProteinsProperties (wc):
   results = []
 
-  for index, row in mitofates_panda.iterrows ():
-    curr_replicate = row['Replicate']
-    curr_protein = row['Protein']
+  for mitofates_row in mitofates_panda.itertuples (index = False):
+    curr_replicate = mitofates_row.Replicate
+    curr_protein = mitofates_row.Protein
 
-    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{g}.tsv".format (g=curr_protein, r=curr_replicate)]
+    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{p}.tsv".format (p=curr_protein, r=curr_replicate)]
     results.extend (d)
 
   print ("ExpandProteinsProperties:\t", results, file=sys.stderr)
@@ -77,7 +89,7 @@ rule Combine_DeepMito:
   input:
     ExpandDeepMito
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/04_deepmito_combine/deepmito.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_deepmito_combine/deepmito.tsv"
   shell:
     """
     Perl/generate-deepmito-header.pl >{output.output_fn1}
@@ -89,7 +101,7 @@ rule Combine_MitoFates:
   input:
     ExpandMitoFates
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/04_mitofates_combine/mitofates.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mitofates_combine/mitofates.tsv"
   shell:
     """
     Perl/generate-mitofates-header.pl >{output.output_fn1}
@@ -101,9 +113,9 @@ rule Combine_MTS_Properties:
   input:
     ExpandMTSProperties
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/04_mts_properties_combine/mts_properties.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mts_properties_combine/mts_properties.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/04_mts_properties_combine/mts_properties.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mts_properties_combine/mts_properties.log"
   shell:
     """
     cat {input} | Perl/clean-properties.pl >{output.output_fn1} 2>{log.log_fn1}
@@ -114,9 +126,9 @@ rule Combine_Proteins_Properties:
   input:
     ExpandProteinsProperties
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/04_proteins_properties_combine/proteins_properties.tsv"
+    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_proteins_properties_combine/proteins_properties.tsv"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/04_proteins_properties_combine/proteins_properties.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/{group}/04_proteins_properties_combine/proteins_properties.log"
   shell:
     """
     cat {input} | Perl/clean-properties.pl >{output.output_fn1} 2>{log.log_fn1}

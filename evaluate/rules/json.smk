@@ -15,11 +15,11 @@
 
 rule JSON_to_TSV:
   input:
-    input_fn1 = OUTPUT_DIR + "/graphs/01_deepmito_copy/{method}_{protein}_{replicate}.json"
+    input_fn1 = OUTPUT_DIR + "/graphs/main/01_deepmito_copy/{method}_{protein}_{replicate}.json"
   output:
-    output_fn1 = OUTPUT_DIR + "/graphs/02_deepmito_parse/{method}_{protein}_{replicate}.json"
+    output_fn1 = OUTPUT_DIR + "/graphs/main/02_deepmito_parse/{method}_{protein}_{replicate}.json"
   log:
-    log_fn1 = OUTPUT_DIR + "/graphs/02_deepmito_parse/{method}_{protein}_{replicate}.log"
+    log_fn1 = OUTPUT_DIR + "/graphs/main/02_deepmito_parse/{method}_{protein}_{replicate}.log"
   shell:
     """
     Perl/parse-deepmito.pl --input {input.input_fn1} >{output.output_fn1} 2>{log.log_fn1}
