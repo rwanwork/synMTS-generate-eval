@@ -25,8 +25,15 @@ random:
   maxlen:  120
   mincharge:  8
   methods:
+    - 1
+    - 2
+    - 3
     - 4
+    - 5
+    - 6
     - 7
+    - 8
+    - 9
 
 
 ##  Protein sequences
@@ -35,4 +42,5 @@ protein:
     - atp8
     - atp9
     - cox2
+    - hac1
 
