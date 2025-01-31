@@ -13,8 +13,8 @@
 #####################################################################
 
 ##  Data tables with additional configuration information
-deepmito:  "Input/deepmito.tsv"
-mitofates:  "Input/mitofates.tsv"
+deepmito:  "config/deepmito.tsv"
+mitofates:  "config/mitofates.tsv"
 grouping:  "config/grouping.tsv"
 
 
@@ -25,15 +25,8 @@ random:
   maxlen:  120
   mincharge:  8
   methods:
-    - 1
-    - 2
-    - 3
     - 4
-    - 5
-    - 6
     - 7
-    - 8
-    - 9
 
 
 ##  Protein sequences
@@ -42,5 +35,4 @@ protein:
     - atp8
     - atp9
     - cox2
-    - hac1
 
