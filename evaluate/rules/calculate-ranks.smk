@@ -85,8 +85,8 @@ rule Calculate_DeepMito_Count:
     """
     methods_list="4,7"
 
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp8 --methods ${{methods_list}} --debug >{output.output_fn1} 2>{log.log_fn1}
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 atp9 --methods ${{methods_list}} --debug >{output.output_fn2} 2>{log.log_fn2}
-    Perl/rank-deepmito-count.pl --deepmito Output/graphs/04_deepmito_combine/deepmito.tsv --protein1 cox2 --methods ${{methods_list}} --debug >{output.output_fn3} 2>{log.log_fn3}
+    Perl/rank-deepmito-count.pl --deepmito {input.input_fn1} --protein1 atp8 --methods ${{methods_list}} --debug >{output.output_fn1} 2>{log.log_fn1}
+    Perl/rank-deepmito-count.pl --deepmito {input.input_fn1} --protein1 atp9 --methods ${{methods_list}} --debug >{output.output_fn2} 2>{log.log_fn2}
+    Perl/rank-deepmito-count.pl --deepmito {input.input_fn1} --protein1 cox2 --methods ${{methods_list}} --debug >{output.output_fn3} 2>{log.log_fn3}
     """
 
