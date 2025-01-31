@@ -13,6 +13,12 @@
 #####################################################################
 
 
+##################################
+##  Define local functions
+##################################
+
+##  Only take the DeepMito output which are from the replicates
+##    assigned to the group of interest
 def ExpandDeepMito (wc):
   results = []
 
@@ -35,6 +41,8 @@ def ExpandDeepMito (wc):
   return results
 
 
+##  Only take the MitoFates output which are from the replicates
+##    assigned to the group of interest
 def ExpandMitoFates (wc):
   results = []
 
@@ -56,34 +64,9 @@ def ExpandMitoFates (wc):
   return results
 
 
-def ExpandMTSProperties (wc):
-  results = []
-
-  for mitofates_row in mitofates_panda.itertuples (index = False):
-    curr_replicate = mitofates_row.Replicate
-
-    d = [OUTPUT_DIR + "/random/{r}/06_merged_mts_properties/all/mts.tsv".format (r=curr_replicate)]
-    results.extend (d)
-
-  print ("ExpandMTSProperties:\t", results, file=sys.stderr)
-
-  return results
-
-
-def ExpandProteinsProperties (wc):
-  results = []
-
-  for mitofates_row in mitofates_panda.itertuples (index = False):
-    curr_replicate = mitofates_row.Replicate
-    curr_protein = mitofates_row.Protein
-
-    d = [OUTPUT_DIR + "/random/{r}/06_merged_proteins_properties/all/{p}.tsv".format (p=curr_protein, r=curr_replicate)]
-    results.extend (d)
-
-  print ("ExpandProteinsProperties:\t", results, file=sys.stderr)
-
-  return results
-
+##################################
+##  Define rules
+##################################
 
 rule Combine_DeepMito:
   input:
@@ -106,32 +89,6 @@ rule Combine_MitoFates:
     """
     Perl/generate-mitofates-header.pl >{output.output_fn1}
     cat {input} >>{output.output_fn1}
-    """
-
-
-rule Combine_MTS_Properties:
-  input:
-    ExpandMTSProperties
-  output:
-    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mts_properties_combine/mts_properties.tsv"
-  log:
-    log_fn1 = OUTPUT_DIR + "/graphs/{group}/04_mts_properties_combine/mts_properties.log"
-  shell:
-    """
-    cat {input} | Perl/clean-properties.pl >{output.output_fn1} 2>{log.log_fn1}
-    """
-
-
-rule Combine_Proteins_Properties:
-  input:
-    ExpandProteinsProperties
-  output:
-    output_fn1 = OUTPUT_DIR + "/graphs/{group}/04_proteins_properties_combine/proteins_properties.tsv"
-  log:
-    log_fn1 = OUTPUT_DIR + "/graphs/{group}/04_proteins_properties_combine/proteins_properties.log"
-  shell:
-    """
-    cat {input} | Perl/clean-properties.pl >{output.output_fn1} 2>{log.log_fn1}
     """
 
 

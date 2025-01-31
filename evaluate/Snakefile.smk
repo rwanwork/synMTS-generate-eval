@@ -55,10 +55,10 @@ include:  "rules/copy.smk"
 include:  "rules/json.smk"
 include:  "rules/clean.smk"
 include:  "rules/combine.smk"
-include:  "rules/graph-software.smk"
-include:  "rules/graph-properties.smk"
 include:  "rules/calculate-ranks.smk"
 include:  "rules/graph-ranks.smk"
+include:  "rules/graph-webserver.smk"
+include:  "rules/graph-properties.smk"
 
 include:  "rules/complete.smk"
 
