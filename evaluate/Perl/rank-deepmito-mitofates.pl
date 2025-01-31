@@ -323,7 +323,7 @@ for (my $k = 0; $k < scalar (@ranks); $k++) {
     }
   }
 
-  printf STDOUT "%u\t-1\t%u\n", $ranks[$k], $overlap_count;
+  printf STDOUT "%u\tAll\t%u\n", $overlap_count;
   foreach my $key (sort (keys %methods_count)) {
     printf STDOUT "%u\t%u\t%u\n", $ranks[$k], $key, $methods_count{$key};
   }
