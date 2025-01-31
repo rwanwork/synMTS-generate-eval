@@ -13,7 +13,7 @@
 #####################################################################
 
 
-rule Complete_Graphs:
+rule Complete:
   input:
     input_fn1 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/deepmito.jpg",
     input_fn2 = OUTPUT_DIR + "/graphs/{group}/05_boxplots/deepmito.eps",
